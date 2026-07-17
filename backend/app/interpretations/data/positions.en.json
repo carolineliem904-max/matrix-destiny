@@ -1,0 +1,44 @@
+[
+  {
+    "id": "center",
+    "label": "Central Energy",
+    "description": "Draft role description for the chart's central position.",
+    "source_status": "draft"
+  },
+  {
+    "id": "portrait",
+    "label": "Portrait",
+    "description": "Draft role description for how the chart introduces personal presentation.",
+    "source_status": "draft"
+  },
+  {
+    "id": "talents",
+    "label": "Talents",
+    "description": "Draft role description for natural capacities and learned strengths.",
+    "source_status": "draft"
+  },
+  {
+    "id": "relationship_line",
+    "label": "Relationship Line",
+    "description": "Draft role description for relational themes.",
+    "source_status": "draft"
+  },
+  {
+    "id": "money_line",
+    "label": "Money Line",
+    "description": "Draft role description for material and financial themes.",
+    "source_status": "draft"
+  },
+  {
+    "id": "ancestral_line",
+    "label": "Ancestral Line",
+    "description": "Draft role description for inherited patterns and family context.",
+    "source_status": "draft"
+  },
+  {
+    "id": "karmic_tail",
+    "label": "Karmic Tail",
+    "description": "Draft role description for unresolved lessons or recurring patterns.",
+    "source_status": "draft"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "center",
+    "label": "Energi Pusat",
+    "description": "Deskripsi peran draf untuk posisi pusat bagan.",
+    "source_status": "draft"
+  },
+  {
+    "id": "portrait",
+    "label": "Potret Diri",
+    "description": "Deskripsi peran draf untuk cara bagan memperkenalkan presentasi diri.",
+    "source_status": "draft"
+  },
+  {
+    "id": "talents",
+    "label": "Bakat",
+    "description": "Deskripsi peran draf untuk kapasitas alami dan kekuatan yang dipelajari.",
+    "source_status": "draft"
+  },
+  {
+    "id": "relationship_line",
+    "label": "Garis Relasi",
+    "description": "Deskripsi peran draf untuk tema hubungan.",
+    "source_status": "draft"
+  },
+  {
+    "id": "money_line",
+    "label": "Garis Uang",
+    "description": "Deskripsi peran draf untuk tema materi dan finansial.",
+    "source_status": "draft"
+  },
+  {
+    "id": "ancestral_line",
+    "label": "Garis Leluhur",
+    "description": "Deskripsi peran draf untuk pola warisan dan konteks keluarga.",
+    "source_status": "draft"
+  },
+  {
+    "id": "karmic_tail",
+    "label": "Ekor Karmis",
+    "description": "Deskripsi peran draf untuk pelajaran yang belum selesai atau pola berulang.",
+    "source_status": "draft"
+  }
+]

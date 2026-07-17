@@ -1,0 +1,38 @@
+# Matrix Destiny
+
+Bilingual Destiny Matrix MVP for educational self-reflection. The current calculation methodology is intentionally marked `unverified-v0` until definitive formulas are supplied.
+
+## Structure
+
+- `frontend/` - Next.js App Router, TypeScript, Tailwind CSS, SVG chart UI
+- `backend/` - FastAPI calculation and interpretation API
+- `docs/` - methodology checklist and product notes
+- `product_plan.md` - milestone plan and guardrails
+
+## Safety Guardrails
+
+- Calculations are deterministic and separate from interpretations.
+- Placeholder values are never labeled as verified.
+- AI is not used in the first MVP and must never calculate matrix values.
+- Readings are presented for reflection and entertainment, not scientific or predictive claims.
+
+## Backend
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest
+uvicorn app.main:app --reload
+```
+
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+By default the frontend calls `http://localhost:8000`. Set `NEXT_PUBLIC_API_BASE_URL` to change that.
