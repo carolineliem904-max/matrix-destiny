@@ -10,12 +10,12 @@ The concept names listed in `methodology_spec.md` are working placeholders only.
 
 | Proposed concept | Formula supplied | Implemented | Tested | Status |
 | --- | --- | --- | --- | --- |
-| Value normalization | No | Experimental strategy only, not final methodology | Experimental normalizer tests only | Awaiting authoritative source |
-| Center | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Top | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Left | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Right | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Bottom | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
+| Value normalization | Provisional transcription | Teacher teaser only; public placeholder unchanged | Experimental and teacher-teaser tests | Awaiting teacher verification |
+| Center | Provisional transcription | `E` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
+| Top | Provisional transcription | `B` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
+| Left | Provisional transcription | `A` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
+| Right | Provisional transcription | `C` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
+| Bottom | Provisional transcription | `D` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
 | Karmic tail | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
 | Relationship line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
 | Money line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
@@ -88,6 +88,59 @@ For `999`:
 
 This normalization rule alone does not define the full matrix. It must not be called universal, classic, or standard until an authoritative source is selected.
 
+## Provisional Teacher Teaser Methodology
+
+- Internal version: `teacher-teaser-v0.1`
+- Status: `transcribed_from_teacher_material`
+- Verification: Provisional, not teacher-verified
+- Public exposure: Internal registry only; not the calculator or API default
+- Interpretation data: Unchanged
+
+The supplied implementation requirements transcribed the following formulas
+from teacher teaser slides. The original slide image and identifier were not
+attached, so this implementation reproduces the supplied examples but cannot
+claim independent visual source verification.
+
+| ID | Neutral label | Implemented formula |
+| --- | --- | --- |
+| A | Birth Day / Left | `normalize(day)` |
+| B | Birth Month / Top | `normalize(month)` |
+| C | Birth Year / Right | Sum all four year digits, then normalize |
+| D | Foundation / Bottom | `normalize(A + B + C)` |
+| earth_line | Earth Line | `normalize(A + C)` |
+| sky_line | Sky Line | `normalize(B + D)` |
+| E | Soul Searching / Center | `normalize(earth_line + sky_line)` |
+| top_left | Top Left | `normalize(A + B)` |
+| top_right | Top Right | `normalize(B + C)` |
+| bottom_right | Bottom Right | `normalize(C + D)` |
+| bottom_left | Bottom Left | `normalize(D + A)` |
+
+Every value includes a calculation trace. E also records its equivalent
+`normalize(A + B + C + D)` expression under the current normalizer.
+
+The internal compatibility composer applies
+`normalize(person_1[position] + person_2[position])` only to these 11 IDs.
+Unsupported or missing positions are rejected. No compatibility route or public
+default has been added.
+
+Evidence classification:
+
+- `transcribed`: a formula or value appears in the supplied teacher-material
+  transcription but has not been independently checked against the slide.
+- `inferred`: reconstructed from supplied formulas or examples where the source
+  chart value could not be read confidently.
+- `teacher_verified`: confirmed against authoritative material by an identified
+  verifier on a recorded date. No teacher-teaser fixture has this status.
+
+Taylor Swift and Travis Kelce personal fixtures reconstruct all supplied values.
+For their compatibility fixture, Earth Line `9` and Sky Line `8` are marked
+`inferred` because the original slide was unavailable; the other supplied
+compatibility values are `transcribed`.
+
+Unsupported topics remain: small/internal nodes beyond the stated Earth and Sky
+lines, annual energy, monthly energy, age cycles, money output, relationship
+output, the Ahmad Sahroni forecast chart, and positions inferred from geometry.
+
 ## Reference Fixture Verification Workflow
 
 The backend includes a reference-fixture schema for recording authoritative
@@ -97,10 +150,12 @@ transcribed evidence; it does not calculate positions or establish formulas.
 Fixture status progresses explicitly:
 
 1. `transcribed`: copied from the identified source but not independently checked.
-2. `independently_checked`: compared against the source by a second reviewer.
-3. `teacher_verified`: confirmed against authoritative course material, with
+2. `inferred`: reconstructed from supplied evidence but not confidently visible
+   in the original source.
+3. `independently_checked`: compared against the source by a second reviewer.
+4. `teacher_verified`: confirmed against authoritative course material, with
    source name, source type, source reference, verifier, and verification date.
-4. `disputed`: retained for investigation because sources or reviewers disagree.
+5. `disputed`: retained for investigation because sources or reviewers disagree.
 
 To transcribe a teacher's chart:
 

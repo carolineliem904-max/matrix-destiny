@@ -1,0 +1,158 @@
+{
+  "case_name": "Taylor Swift teacher teaser example",
+  "birth_date": "1989-12-13",
+  "methodology_version": "teacher-teaser-v0.1",
+  "source_name": "Teacher teaser slide supplied through project requirements",
+  "source_type": "teacher_slide",
+  "source_reference": "Original slide identifier not provided; values transcribed in the teacher-teaser implementation request",
+  "verified_by": null,
+  "verification_date": null,
+  "notes": "Provisional transcription and formula reconstruction. Not teacher-verified.",
+  "is_synthetic": false,
+  "expected_positions": [
+    {
+      "position_id": "A",
+      "source_label": "A / left / birth_day",
+      "label_en": "Birth Day",
+      "label_id": null,
+      "expected_value": 13,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "B",
+      "source_label": "B / top / birth_month",
+      "label_en": "Birth Month",
+      "label_id": null,
+      "expected_value": 12,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "C",
+      "source_label": "C / right / birth_year",
+      "label_en": "Birth Year",
+      "label_id": null,
+      "expected_value": 9,
+      "calculation_trace": [
+        "Year digits: 1 + 9 + 8 + 9 = 27",
+        "27 is greater than 22",
+        "2 + 7 = 9"
+      ],
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "D",
+      "source_label": "D / bottom / foundation",
+      "label_en": "Foundation",
+      "label_id": null,
+      "expected_value": 7,
+      "calculation_trace": [
+        "A + B + C = 13 + 12 + 9 = 34",
+        "34 is greater than 22",
+        "3 + 4 = 7"
+      ],
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "E",
+      "source_label": "E / center / soul_searching",
+      "label_en": "Soul Searching",
+      "label_id": null,
+      "expected_value": 5,
+      "calculation_trace": [
+        "Earth Line + Sky Line = 22 + 19 = 41",
+        "41 is greater than 22",
+        "4 + 1 = 5"
+      ],
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "earth_line",
+      "source_label": "Earth Line",
+      "label_en": "Earth Line",
+      "label_id": null,
+      "expected_value": 22,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "sky_line",
+      "source_label": "Sky Line",
+      "label_en": "Sky Line",
+      "label_id": null,
+      "expected_value": 19,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "top_left",
+      "source_label": "Top Left",
+      "label_en": "Top Left",
+      "label_id": null,
+      "expected_value": 7,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "top_right",
+      "source_label": "Top Right",
+      "label_en": "Top Right",
+      "label_id": null,
+      "expected_value": 21,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "bottom_right",
+      "source_label": "Bottom Right",
+      "label_en": "Bottom Right",
+      "label_id": null,
+      "expected_value": 16,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    },
+    {
+      "position_id": "bottom_left",
+      "source_label": "Bottom Left",
+      "label_en": "Bottom Left",
+      "label_id": null,
+      "expected_value": 20,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": null,
+      "is_raw_intermediate": false
+    }
+  ]
+}

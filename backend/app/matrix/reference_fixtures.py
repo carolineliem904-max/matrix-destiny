@@ -10,6 +10,7 @@ from app.matrix.validator import validate_birth_date
 
 FixtureStatus = Literal[
     "transcribed",
+    "inferred",
     "independently_checked",
     "teacher_verified",
     "disputed",
@@ -18,6 +19,7 @@ FixtureSourceType = Literal[
     "synthetic",
     "course_material",
     "teacher_chart",
+    "teacher_slide",
     "book",
     "other",
 ]
@@ -158,6 +160,97 @@ class MethodologyReferenceFixture(BaseModel):
         )
 
 
+class CompatibilityReferenceFixture(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    case_name: str = Field(min_length=1)
+    person_1_case_name: str = Field(min_length=1)
+    person_1_birth_date: date
+    person_2_case_name: str = Field(min_length=1)
+    person_2_birth_date: date
+    methodology_version: str = Field(min_length=1)
+    source_name: str
+    source_type: FixtureSourceType
+    source_reference: str
+    verified_by: str | None = None
+    verification_date: date | None = None
+    notes: str
+    is_synthetic: bool = False
+    expected_positions: list[ExpectedReferencePosition] = Field(min_length=1)
+
+    @field_validator(
+        "person_1_birth_date",
+        "person_2_birth_date",
+        mode="before",
+    )
+    @classmethod
+    def validate_person_birth_date(cls, value: Any) -> date:
+        parsed = _parse_strict_iso_date(value, "birth_date")
+        validate_birth_date(parsed)
+        return parsed
+
+    @field_validator("verification_date", mode="before")
+    @classmethod
+    def validate_compatibility_verification_date(
+        cls, value: Any
+    ) -> date | None:
+        if value is None:
+            return None
+        parsed = _parse_strict_iso_date(value, "verification_date")
+        if parsed > date.today():
+            raise ValueError("verification_date cannot be in the future.")
+        return parsed
+
+    @model_validator(mode="after")
+    def validate_fixture_integrity(self) -> "CompatibilityReferenceFixture":
+        position_ids = [position.position_id for position in self.expected_positions]
+        if len(position_ids) != len(set(position_ids)):
+            raise ValueError("expected_positions contains duplicate position_id values.")
+
+        teacher_verified = any(
+            position.status == "teacher_verified"
+            for position in self.expected_positions
+        )
+        if teacher_verified:
+            required_metadata = {
+                "source_name": self.source_name,
+                "source_reference": self.source_reference,
+                "verified_by": self.verified_by,
+                "verification_date": self.verification_date,
+            }
+            missing = [
+                name
+                for name, value in required_metadata.items()
+                if value is None
+                or (isinstance(value, str) and not value.strip())
+            ]
+            if self.source_type == "synthetic":
+                missing.append("non-synthetic source_type")
+            if self.is_synthetic:
+                missing.append("is_synthetic=false")
+            if missing:
+                raise ValueError(
+                    "teacher_verified fixtures require authoritative source metadata: "
+                    + ", ".join(missing)
+                )
+
+        if self.is_synthetic and self.source_type != "synthetic":
+            raise ValueError("Synthetic fixtures must use source_type 'synthetic'.")
+
+        return self
+
+    @property
+    def is_acceptance_ready(self) -> bool:
+        return (
+            not self.is_synthetic
+            and self.source_type != "synthetic"
+            and all(
+                position.status == "teacher_verified"
+                for position in self.expected_positions
+            )
+        )
+
+
 def load_reference_fixture(path: Path) -> MethodologyReferenceFixture:
     data = json.loads(path.read_text(encoding="utf-8"))
     return MethodologyReferenceFixture.model_validate(data)
@@ -176,3 +269,10 @@ def acceptance_ready_fixtures(
     fixtures: Iterable[MethodologyReferenceFixture],
 ) -> tuple[MethodologyReferenceFixture, ...]:
     return tuple(fixture for fixture in fixtures if fixture.is_acceptance_ready)
+
+
+def load_compatibility_reference_fixture(
+    path: Path,
+) -> CompatibilityReferenceFixture:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return CompatibilityReferenceFixture.model_validate(data)
