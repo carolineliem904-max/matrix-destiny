@@ -1,0 +1,26 @@
+{
+  "case_name": "Synthetic schema example - not authoritative",
+  "birth_date": "1990-08-16",
+  "methodology_version": "synthetic-unverified-v0",
+  "source_name": "Synthetic fixture for schema validation only",
+  "source_type": "synthetic",
+  "source_reference": "backend/tests/fixtures/synthetic_example.json",
+  "verified_by": null,
+  "verification_date": null,
+  "notes": "Invented data for testing the fixture framework. It is not evidence for any Destiny Matrix formula.",
+  "is_synthetic": true,
+  "expected_positions": [
+    {
+      "position_id": "synthetic_example_position",
+      "source_label": "Synthetic example position",
+      "label_en": null,
+      "label_id": null,
+      "expected_value": 11,
+      "calculation_trace": null,
+      "chart_coordinates": null,
+      "status": "transcribed",
+      "notes": "Synthetic value; do not use in methodology acceptance tests.",
+      "is_raw_intermediate": false
+    }
+  ]
+}

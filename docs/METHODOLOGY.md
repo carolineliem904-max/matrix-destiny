@@ -22,7 +22,7 @@ The concept names listed in `methodology_spec.md` are working placeholders only.
 | Male ancestral line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
 | Female ancestral line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
 | Age cycles | No | No | No | Awaiting authoritative source |
-| Verified reference fixtures | No | No | No, except existing placeholder behavior | Awaiting authoritative source |
+| Verified reference fixtures | No | Framework only; synthetic example excluded from acceptance | Schema validation tests only | Awaiting authoritative source |
 
 ## Experimental Normalization Candidate
 
@@ -87,6 +87,41 @@ For `999`:
 - Result: `9`
 
 This normalization rule alone does not define the full matrix. It must not be called universal, classic, or standard until an authoritative source is selected.
+
+## Reference Fixture Verification Workflow
+
+The backend includes a reference-fixture schema for recording authoritative
+example matrices when course material becomes available. The framework validates
+transcribed evidence; it does not calculate positions or establish formulas.
+
+Fixture status progresses explicitly:
+
+1. `transcribed`: copied from the identified source but not independently checked.
+2. `independently_checked`: compared against the source by a second reviewer.
+3. `teacher_verified`: confirmed against authoritative course material, with
+   source name, source type, source reference, verifier, and verification date.
+4. `disputed`: retained for investigation because sources or reviewers disagree.
+
+To transcribe a teacher's chart:
+
+1. Record the case name, exact `YYYY-MM-DD` birth date, stated methodology
+   version, and durable source reference.
+2. Preserve every teacher-provided position name in `source_label`. English and
+   Indonesian labels are optional until translations are reviewed.
+3. Record only values visible in the source. Final values must be in `1–22`.
+   Values above `22` are accepted only when explicitly marked as raw
+   intermediate values.
+4. Copy calculation traces only when the source supplies them. Do not infer
+   missing steps or formulas.
+5. Add chart coordinates only after a source position is deliberately mapped to
+   frontend geometry.
+6. Have a second reviewer check the transcription, then obtain teacher or
+   authoritative-source confirmation before using it as an acceptance fixture.
+
+`backend/tests/fixtures/synthetic_example.json` is intentionally synthetic and
+unverified. Its `is_synthetic` marker prevents it from qualifying for
+verified-methodology acceptance tests. Detailed editing instructions are in
+`backend/tests/fixtures/README.md`.
 
 ## Mapping Notes
 
