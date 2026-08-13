@@ -119,72 +119,113 @@ The provisional methodology does not calculate:
 
 ## Matrix positions
 
-### Center
-- Meaning:
-- Formula:
-- Worked example:
+## Mahesa Gantari RWS course methodology
 
-### Top
-- Meaning:
-- Formula:
-- Worked example:
+- Internal version: `mahesa-gantari-rws-v0.1`
+- Status: `course_transcribed`
+- Verified: `false`
+- Public default: No
+- Calculation source: *Matrix of Destiny Basic 02*, Akademi Mahesa Gantari
+  (2026)
+- Arcana source: *Matrix of Destiny Basic 01*, Akademi Mahesa Gantari (2026)
+- Normalizer: Existing Consecutive Digit Addition strategy, preserving `1-22`
 
-### Left
-- Meaning:
-- Formula:
-- Worked example:
+The private course PDFs and extracted Markdown are local source material and are
+not redistributed. Only independently implemented formulas, concise labels,
+source page references, and numeric fixtures are stored in the repository.
 
-### Right
-- Meaning:
-- Formula:
-- Worked example:
+### Formula table
 
-### Bottom
-- Meaning:
-- Formula:
-- Worked example:
+| Output | Formula | Source page |
+| --- | --- | --- |
+| A | `normalize(day)` | Module 02 p. 14 |
+| B | `normalize(month)` | Module 02 p. 14 |
+| C | `normalize(sum(four year digits))` | Module 02 p. 14 |
+| D | `normalize(A + B + C)` | Module 02 p. 14 |
+| E | `normalize(A + B + C + D)` | Module 02 p. 14 |
+| F | `normalize(A + B)` | Module 02 p. 24 |
+| G | `normalize(B + C)` | Module 02 p. 24 |
+| H | `normalize(C + D)` | Module 02 p. 24 |
+| I | `normalize(A + D)` | Module 02 p. 24 |
+| J | `normalize(A + E)` | Module 02 p. 40 |
+| K | `normalize(B + E)` | Module 02 p. 40 |
+| L | `normalize(C + E)` | Module 02 p. 40 |
+| M | `normalize(D + E)` | Module 02 p. 40 |
+| N | `normalize(L + M)` | Module 02 p. 40 |
+| O | `normalize(F + G + H + I)` | Module 02 p. 40 |
+| P | `normalize(F + O)` | Module 02 p. 40 |
+| Q | `normalize(G + O)` | Module 02 p. 40 |
+| R | `normalize(H + O)` | Module 02 p. 40 |
+| S | `normalize(I + O)` | Module 02 p. 40 |
 
-## Karmic tail
-- Components:
-- Formula:
-- Order of numbers:
-- Worked example:
+Additional display nodes are independently identified and normalized:
 
-## Relationship line
-- Components:
-- Formula:
-- Worked example:
+- `A_plus_J`, `B_plus_K`, `C_plus_L`, `D_plus_M`
+- `F_plus_P`, `G_plus_Q`, `H_plus_R`, `I_plus_S`
+- `E_plus_K`, `E_plus_O`, `L_plus_N`, `M_plus_N`
 
-## Money line
-- Components:
-- Formula:
-- Worked example:
+These formulas are shown on Module 02 page 40. Every calculated point includes
+a trace and evidence metadata with methodology version, document, page,
+evidence status, and `verified: false`.
 
-## Male ancestral line
-- Components:
-- Formula:
-- Worked example:
+### Ordered domain lines
 
-## Female ancestral line
-- Components:
-- Formula:
-- Worked example:
+| Domain object | Ordered point IDs | Source |
+| --- | --- | --- |
+| Money Line | `L -> L_plus_N -> N` | Module 02 pp. 31-32, 41 |
+| Relationship Line | `M -> M_plus_N -> N` | Module 02 pp. 34-35, 41 |
+| Karmic Tail | `M -> D_plus_M -> D` | Module 02 pp. 41, 45 |
+| Deepest Desire | `O -> E_plus_O` | Module 02 p. 41 |
+| Male Generation Line | `F -> H` | Module 02 pp. 24, 41 |
+| Female Generation Line | `G -> I` | Module 02 pp. 24, 41 |
 
-## Age cycles
-- Starting age:
-- Interval:
-- Formula:
-- Boundary rules:
-- Worked example:
+Relationship Line and Karmic Tail remain separate domain objects even when a
+fixture produces the same numeric sequence.
 
-## Verified example charts
+Purpose values from Module 02 page 41:
 
-### Example 1
-- Birth date:
-- Expected positions:
-- Source:
+- `earth = normalize(A + C)`
+- `sky = normalize(B + D)`
+- `soul_searching = normalize(earth + sky)`
+- `male = normalize(F + H)`
+- `female = normalize(G + I)`
+- `socialization = normalize(male + female)`
+- `spiritual_knowledge = normalize(soul_searching + socialization)`
 
-### Example 2
-- Birth date:
-- Expected positions:
-- Source:
+The `male` and `female` scalar formulas use
+`reconstructed_from_course_diagram` evidence: the source explicitly shows the
+ordered generation lines and defines Socialization as Male plus Female, but
+does not separately state the two scalar formulas in prose. Their formulas and
+values remain unchanged and are not teacher-verified.
+
+Course age ranges are metadata only, not scientific claims or guaranteed
+predictions.
+
+### RWS Arcana profile
+
+The versioned profile `rws-mahesa-gantari-v0.1` uses Module 01 page 12. It maps
+8 to Strength, 11 to Justice, and Matrix energy 22 to The Fool. Numeric Matrix
+calculation and Arcana semantic profiles remain separate modules.
+
+### Optional sect context
+
+Accepted values are `day`, `night`, and `unknown`; missing input defaults to
+`unknown`. Day and night are recorded as `user_provided`. The application does
+not infer sect from birth date, require birth time or location, or activate any
+sect weighting. Sect never changes Matrix values and all sect-based
+interpretation is skipped while the value is unknown.
+
+`matrix-destiny.com` may be used only for manual comparison. It is not a source
+of formulas and no automated compatibility claim is exposed.
+
+## Legacy source template
+
+The former empty placeholders for Center, Top, Left, Right, Bottom, Karmic
+Tail, Relationship Line, Money Line, and generation lines are superseded for
+`mahesa-gantari-rws-v0.1` by the formula and ordered-line tables above. They
+remain unresolved only for the public `unverified-v0` methodology and must not
+be used to imply that the course methodology lacks formulas.
+
+Age-cycle calculations remain unspecified. Course age ranges are descriptive
+metadata only. Teacher verification and mapping to the public frontend's
+semantic labels also remain pending.

@@ -42,3 +42,14 @@ Synthetic fixtures must set `is_synthetic` to `true` and `source_type` to
   original slide was not attached for visual confirmation.
 - All other supplied teacher-teaser values are `transcribed`.
 - None of these fixtures are `teacher_verified` or acceptance-ready.
+
+## Mahesa Gantari Course Fixture
+
+`mahesa_gantari_1988_08_18.json` records the concise numeric expectations for
+the 18 August 1988 example from *Matrix of Destiny Basic 02* (Akademi Mahesa
+Gantari, 2026). It contains independently structured values, source page
+references, and verification status only. It does not redistribute the PDF or
+its complete interpretation text.
+
+The fixture is `course_transcribed` and `verified: false`. It is not a
+teacher-verified acceptance fixture yet.

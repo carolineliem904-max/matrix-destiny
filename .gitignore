@@ -20,3 +20,7 @@ frontend/.next/
 frontend/out/
 coverage/
 *.log
+*.tsbuildinfo
+
+# Private copyrighted course materials
+/private_sources/

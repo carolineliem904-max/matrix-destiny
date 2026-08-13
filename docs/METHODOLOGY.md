@@ -1,28 +1,115 @@
 # Destiny Matrix Methodology
 
-Current methodology version: `unverified-v0`
+Public methodology version: `unverified-v0`
 
-The definitive Destiny Matrix formulas have not been supplied yet. This document tracks proposed concepts, required formulas, and verification status. The application must not silently choose between competing methods.
+The public calculator remains on the intentionally unverified placeholder
+methodology. Separately, the repository contains experimental, teaser, and
+course-transcribed implementations with explicit version and evidence
+boundaries. None is silently promoted to the public default.
 
-The concept names listed in `methodology_spec.md` are working placeholders only. They have not yet been verified against an authoritative Destiny Matrix source, and they have not yet been mapped to the frontend chart's current semantic labels such as Central Energy, Portrait, Talents, Relationship Line, Money Line, Ancestral Line, or Karmic Tail.
+For the public `unverified-v0` methodology, concept names remain working
+placeholders. The internal course positions have source-backed formulas, but
+they have not yet been mapped to the frontend chart's semantic labels such as
+Central Energy, Portrait, Talents, Relationship Line, Money Line, Ancestral
+Line, or Karmic Tail.
 
-## Verification Checklist
+The repository also contains the internal `mahesa-gantari-rws-v0.1`
+course-transcribed methodology. It remains `verified: false`, is not the public
+default, and does not establish a mapping to the existing public SVG labels.
+
+## Methodology Inventory
+
+| Role | Version | Status | Public default |
+| --- | --- | --- | --- |
+| Public methodology | `unverified-v0` | Placeholder, `verified: false` | Yes |
+| Experimental normalizer | `cda-experimental-v0` | Experimental normalization only | No |
+| Teacher teaser | `teacher-teaser-v0.1` | Provisional transcription, `verified: false` | No |
+| Course methodology | `mahesa-gantari-rws-v0.1` | `course_transcribed`, `verified: false` | No |
+
+## Course Verification Checklist
+
+This checklist describes `mahesa-gantari-rws-v0.1`; it does not change the
+verification status or behavior of the public methodology.
 
 | Proposed concept | Formula supplied | Implemented | Tested | Status |
 | --- | --- | --- | --- | --- |
-| Value normalization | Provisional transcription | Teacher teaser only; public placeholder unchanged | Experimental and teacher-teaser tests | Awaiting teacher verification |
-| Center | Provisional transcription | `E` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
-| Top | Provisional transcription | `B` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
-| Left | Provisional transcription | `A` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
-| Right | Provisional transcription | `C` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
-| Bottom | Provisional transcription | `D` in teacher teaser only | Reconstructed examples | Awaiting teacher verification |
-| Karmic tail | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Relationship line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Money line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Male ancestral line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
-| Female ancestral line | No | No, placeholder only where applicable | Existing placeholder behavior only | Awaiting authoritative source |
+| Value normalization | Yes | Yes | Yes | Course-transcribed; `verified: false` |
+| Center | Yes | Yes (`E`) | Yes | Course-transcribed; `verified: false` |
+| Top | Yes | Yes (`B`) | Yes | Course-transcribed; `verified: false` |
+| Left | Yes | Yes (`A`) | Yes | Course-transcribed; `verified: false` |
+| Right | Yes | Yes (`C`) | Yes | Course-transcribed; `verified: false` |
+| Bottom | Yes | Yes (`D`) | Yes | Course-transcribed; `verified: false` |
+| Karmic tail | Yes | Yes | Yes | Course-transcribed; `verified: false` |
+| Relationship line | Yes | Yes | Yes | Course-transcribed; `verified: false` |
+| Money line | Yes | Yes | Yes | Course-transcribed; `verified: false` |
+| Male generation line | Yes | Yes | Yes | Course-transcribed; `verified: false` |
+| Female generation line | Yes | Yes | Yes | Course-transcribed; `verified: false` |
 | Age cycles | No | No | No | Awaiting authoritative source |
-| Verified reference fixtures | No | Framework only; synthetic example excluded from acceptance | Schema validation tests only | Awaiting authoritative source |
+| Course reference fixture | Yes | Yes | Yes | Course-transcribed; `verified: false` |
+
+## Mahesa Gantari Course Transcription
+
+`mahesa-gantari-rws-v0.1` independently implements formulas supported by
+*Matrix of Destiny Basic 02* (Akademi Mahesa Gantari, 2026). The implementation
+stores concise labels, traces, numeric fixtures, and source-page evidence. The
+complete PDF and extracted course corpus remain private and are not published
+through Git or the API.
+
+Evidence statuses are deliberately distinct:
+
+- `explicitly_stated_in_course`: the formula is visibly stated on a cited page.
+- `reconstructed_from_course_example`: a value is reproduced from the stated
+  formula and course example.
+- `reconstructed_from_course_diagram`: a scalar is reconstructed from an
+  explicitly ordered course diagram when the scalar formula is not separately
+  stated in prose.
+- `manually_compared_to_reference_calculator`: reserved for a documented human
+  comparison; not automatically assigned.
+- `teacher_verified`: reserved for explicit teacher confirmation; currently not
+  assigned.
+
+Formula sources:
+
+| Formula group | Course pages |
+| --- | --- |
+| Normalization and A-E | Module 02 pp. 13-15 |
+| F-I generation corners | Module 02 p. 24 |
+| J-S and additional nodes | Module 02 p. 40 |
+| Ordered lines and purpose values | Module 02 p. 41 |
+| Money semantics | Module 02 pp. 31-32 |
+| Relationship semantics | Module 02 pp. 34-35 |
+| Karmic Tail meanings | Module 02 p. 45 |
+| RWS Arcana and astrology associations | Module 01 p. 12 |
+
+The 18 August 1988 fixture reconstructs all implemented points and confirms:
+
+- Money Line: `[13, 20, 7]`
+- Relationship Line: `[12, 19, 7]`
+- Karmic Tail: `[12, 19, 7]`
+- Deepest Desire: `[10, 15]`
+- Male Generation Line: `[8, 15]`
+- Female Generation Line: `[16, 7]`
+
+The Relationship Line and Karmic Tail are distinct objects despite sharing the
+same example values. See `methodology_spec.md` for the full concise formula
+table.
+
+Mahesa Gantari uses RWS semantic ordering: energy 8 is Strength, energy 11 is
+Justice, and energy 22 represents The Fool. Arcana content is versioned and kept
+separate from numeric calculation logic. `matrix-destiny.com` is permitted only
+for manual comparison and is not treated as a formula source.
+
+### Deferred Sect Interpretation
+
+Sect is optional user context: `day`, `night`, or `unknown`. Missing input is
+`unknown`; selected day/night values record `source: user_provided`. Birth time
+and birth location are not required, and sect is never inferred from a birth
+date. It does not change Matrix numbers.
+
+No weighting, contrary-to-sect malefic rule, or Arcana interpretation modifier
+is active. Unknown sect skips all sect-based interpretation. Mars, Saturn, and
+their associated Arcana are not labeled inherently negative. Activation must
+wait for a documented teacher rule.
 
 ## Experimental Normalization Candidate
 
@@ -141,6 +228,20 @@ Unsupported topics remain: small/internal nodes beyond the stated Earth and Sky
 lines, annual energy, monthly energy, age cycles, money output, relationship
 output, the Ahmad Sahroni forecast chart, and positions inferred from geometry.
 
+### Local Experimental Preview
+
+The provisional methodology is available only through these feature-flagged
+experimental endpoints:
+
+- `POST /api/experimental/teacher-teaser/personal`
+- `POST /api/experimental/teacher-teaser/compatibility`
+
+They return `404` unless `ENABLE_EXPERIMENTAL_METHODOLOGIES=true`. The setting
+defaults to `false`; use it only in a local `backend/.env`, never in committed
+credentials. The bilingual visual inspection route is
+`/lab/teacher-teaser`. It displays supported values and traces without
+interpretations or predictions and does not alter the public calculator.
+
 ## Reference Fixture Verification Workflow
 
 The backend includes a reference-fixture schema for recording authoritative
@@ -201,6 +302,8 @@ When a formula is supplied, document it with:
 - Example fixture with date of birth
 - Source/status notes
 
-## Placeholder Rule
+## Public Placeholder Rule
 
-Until verified formulas are supplied, every position returns value `0`, `verified: false`, and a trace that clearly states the formula has not been provided.
+The public `unverified-v0` methodology returns value `0`, `verified: false`, and
+a trace stating that its formula has not been provided. Internal versioned
+methodologies do not alter that public behavior.
