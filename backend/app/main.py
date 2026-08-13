@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.experimental_teacher_teaser import (
+    router as experimental_teacher_teaser_router,
+)
 from app.api.matrix import router as matrix_router
 from app.core.config import settings
 
@@ -19,6 +22,7 @@ app.add_middleware(
 )
 
 app.include_router(matrix_router, prefix="/api")
+app.include_router(experimental_teacher_teaser_router, prefix="/api")
 
 
 @app.get("/health")

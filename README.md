@@ -36,3 +36,22 @@ npm run dev
 ```
 
 By default the frontend calls `http://localhost:8000`. Set `NEXT_PUBLIC_API_BASE_URL` to change that.
+
+## Local Teacher Teaser Preview
+
+The experimental `teacher-teaser-v0.1` endpoints are disabled by default. For
+local visual inspection, create `backend/.env` from `backend/.env.example` and
+set:
+
+```bash
+ENABLE_EXPERIMENTAL_METHODOLOGIES=true
+```
+
+Do not commit `backend/.env`. Start the backend and frontend normally, then open:
+
+```text
+http://localhost:3000/lab/teacher-teaser
+```
+
+The preview remains unverified, displays only explicitly supported positions,
+and does not change the public calculator methodology.
