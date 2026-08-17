@@ -31,13 +31,13 @@ export function MahesaChart({points, selected, onSelect, language}:{points:Cours
       {points.map(point => {
         const [x,y] = POSITIONS[point.position_id] ?? [350,350];
         const additional = !primary.has(point.position_id)&&!corners.has(point.position_id)&&!inner.has(point.position_id)&&!shadow.has(point.position_id);
-        const radius = primary.has(point.position_id) ? 34 : corners.has(point.position_id) ? 27 : additional ? 17 : 22;
+        const radius = primary.has(point.position_id) ? 34 : corners.has(point.position_id) ? 27 : additional ? 19 : 22;
         const fill = primary.has(point.position_id) ? "#d9b56d" : corners.has(point.position_id) ? "#79b8b5" : inner.has(point.position_id) ? "#8f79b8" : shadow.has(point.position_id) ? "#b66583" : "#f4dfb3";
         const active = selected === point.position_id;
         return <g key={point.position_id} role="button" tabIndex={0} aria-pressed={active} aria-label={`${point.position_id}, ${point.label}, ${point.value}, ${point.arcana_name}`} onClick={()=>onSelect(point.position_id)} onKeyDown={e=>key(e,point.position_id)} className="teacher-node cursor-pointer outline-none">
           <circle className="teacher-node-focus" cx={x} cy={y} r={radius} fill={fill} stroke={active?"#fff":"#1b1728"} strokeWidth={active?5:2}/>
-          <text x={x} y={y-(additional?2:7)} textAnchor="middle" className={`pointer-events-none fill-night font-bold ${additional?"text-[10px]":"text-[13px]"}`}>{point.position_id.replace("_plus_","+")}</text>
-          {!additional && <text x={x} y={y+15} textAnchor="middle" className="pointer-events-none fill-night text-[18px] font-bold">{point.value}</text>}
+          <text x={x} y={y-(additional?4:7)} textAnchor="middle" className={`pointer-events-none fill-night font-bold ${additional?"text-[9px]":"text-[13px]"}`}>{point.position_id.replace("_plus_","+")}</text>
+          <text x={x} y={y+(additional?12:15)} textAnchor="middle" className={`pointer-events-none fill-night font-bold ${additional?"text-[14px]":"text-[18px]"}`}>{point.value}</text>
         </g>;
       })}
     </svg>

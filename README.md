@@ -37,6 +37,14 @@ npm run dev
 
 By default the frontend calls `http://localhost:8000`. Set `NEXT_PUBLIC_API_BASE_URL` to change that.
 
+## Calculator Navigation
+
+- `/` remains the public calculator and continues to use the intentionally
+  unverified `unverified-v0` methodology.
+- `/lab/mahesa-gantari` is the feature-flagged experimental calculator for the
+  course-transcribed `mahesa-gantari-rws-v0.1` methodology. It is not public by
+  default and remains `verified: false`.
+
 ## Local Teacher Teaser Preview
 
 The experimental `teacher-teaser-v0.1` endpoints are disabled by default. For
