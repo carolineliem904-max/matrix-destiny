@@ -4,6 +4,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.matrix.astrology import Sect, SectContext
+from app.matrix.arcana_profiles import get_mahesa_gantari_arcana
 from app.matrix.normalization import ConsecutiveDigitAdditionNormalizer
 from app.matrix.validator import validate_birth_date
 
@@ -34,6 +35,8 @@ class CoursePoint(BaseModel):
     position_id: str
     label: str
     value: int = Field(ge=1, le=22)
+    arcana_number: int = Field(ge=1, le=22)
+    arcana_name: str
     calculation_trace: tuple[str, ...]
     evidence: FormulaEvidence
 
@@ -126,10 +129,13 @@ class MahesaGantariRwsMethodology:
         ] = "explicitly_stated_in_course",
     ) -> CoursePoint:
         normalized = self.normalizer.normalize_with_trace(raw_value)
+        arcana = get_mahesa_gantari_arcana(normalized.value)
         return CoursePoint(
             position_id=position_id,
             label=label,
             value=normalized.value,
+            arcana_number=arcana.energy_number,
+            arcana_name=arcana.arcana_name,
             calculation_trace=(trace_prefix, *normalized.calculation_trace),
             evidence=FormulaEvidence(
                 source_page=source_page,
