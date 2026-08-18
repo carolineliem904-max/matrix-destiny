@@ -164,6 +164,10 @@ Additional display nodes are independently identified and normalized:
 - `F_plus_P`, `G_plus_Q`, `H_plus_R`, `I_plus_S`
 - `E_plus_K`, `E_plus_O`, `L_plus_N`, `M_plus_N`
 
+The experimental inspection layout also includes `E_plus_J = normalize(E + J)`.
+This point is `reconstructed_from_reference_diagram`, remains `verified: false`,
+and is not represented as explicitly stated in the course.
+
 These formulas are shown on Module 02 page 40. Every calculated point includes
 a trace and evidence metadata with methodology version, document, page,
 evidence status, and `verified: false`.
@@ -200,6 +204,16 @@ values remain unchanged and are not teacher-verified.
 
 Course age ranges are metadata only, not scientific claims or guaranteed
 predictions.
+
+### Experimental Health Card
+
+The feature-flagged Mahesa Gantari lab exposes a provisional Health Card with
+the ordered rows Sahasrara, Ajna, Vishuddha, Anahata, Manipura, Svadhisthana,
+and Muladhara, followed by a normalized result row. Physics and Energy cells
+reference calculated Matrix points; Emotions normalizes the two row values.
+Each result column normalizes the sum of its seven chakra values. These formulas
+are `reconstructed_from_reference_health_card`, remain `verified: false`, and
+are not medical assessments or interpretations.
 
 ### RWS Arcana profile
 

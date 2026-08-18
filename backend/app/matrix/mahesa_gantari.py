@@ -23,6 +23,8 @@ class FormulaEvidence(BaseModel):
         "explicitly_stated_in_course",
         "reconstructed_from_course_example",
         "reconstructed_from_course_diagram",
+        "reconstructed_from_reference_diagram",
+        "reconstructed_from_reference_health_card",
         "manually_compared_to_reference_calculator",
         "teacher_verified",
     ]
@@ -81,6 +83,46 @@ class PurposeValues(BaseModel):
     age_range_metadata: dict[str, str]
 
 
+class HealthCardCell(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    column_id: Literal["physics", "energy", "emotions"]
+    formula: str
+    value: int = Field(ge=1, le=22)
+    arcana_number: int = Field(ge=1, le=22)
+    arcana_name: str
+    calculation_trace: tuple[str, ...]
+    evidence: FormulaEvidence
+    verified: bool = False
+
+
+class HealthCardRow(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    row_id: str
+    label: str
+    physics: HealthCardCell
+    energy: HealthCardCell
+    emotions: HealthCardCell
+
+
+class HealthCardResult(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    physics: HealthCardCell
+    energy: HealthCardCell
+    emotions: HealthCardCell
+
+
+class HealthCard(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    rows: tuple[HealthCardRow, ...]
+    result: HealthCardResult
+    verified: bool = False
+    warnings: tuple[str, ...]
+
+
 class MahesaGantariCalculationRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -103,6 +145,7 @@ class MahesaGantariCalculation(BaseModel):
     male_generation: CourseLine
     female_generation: CourseLine
     purpose: PurposeValues
+    health_card: HealthCard
     sect_context: SectContext
     warnings: tuple[str, ...]
 
@@ -126,7 +169,10 @@ class MahesaGantariRwsMethodology:
             "explicitly_stated_in_course",
             "reconstructed_from_course_example",
             "reconstructed_from_course_diagram",
+            "reconstructed_from_reference_diagram",
+            "reconstructed_from_reference_health_card",
         ] = "explicitly_stated_in_course",
+        source_document: str = SOURCE_DOCUMENT,
     ) -> CoursePoint:
         normalized = self.normalizer.normalize_with_trace(raw_value)
         arcana = get_mahesa_gantari_arcana(normalized.value)
@@ -138,6 +184,7 @@ class MahesaGantariRwsMethodology:
             arcana_name=arcana.arcana_name,
             calculation_trace=(trace_prefix, *normalized.calculation_trace),
             evidence=FormulaEvidence(
+                source_document=source_document,
                 source_page=source_page,
                 evidence_status=evidence_status,
                 verified=False,
@@ -179,6 +226,14 @@ class MahesaGantariRwsMethodology:
             raw_value: int,
             trace_prefix: str,
             source_page: int,
+            evidence_status: Literal[
+                "explicitly_stated_in_course",
+                "reconstructed_from_course_example",
+                "reconstructed_from_course_diagram",
+                "reconstructed_from_reference_diagram",
+                "reconstructed_from_reference_health_card",
+            ] = "explicitly_stated_in_course",
+            source_document: str = SOURCE_DOCUMENT,
         ) -> CoursePoint:
             point = self._point(
                 position_id,
@@ -186,6 +241,8 @@ class MahesaGantariRwsMethodology:
                 raw_value,
                 trace_prefix,
                 source_page,
+                evidence_status,
+                source_document,
             )
             points[position_id] = point
             return point
@@ -226,6 +283,7 @@ class MahesaGantariRwsMethodology:
 
         additional_specs = (
             ("A_plus_J", "A plus J", a, j),
+            ("E_plus_J", "E plus J", e, j),
             ("B_plus_K", "B plus K", b, k),
             ("C_plus_L", "C plus L", c, l),
             ("D_plus_M", "D plus M", d, m),
@@ -240,12 +298,97 @@ class MahesaGantariRwsMethodology:
         )
         for position_id, label, left, right in additional_specs:
             raw = left.value + right.value
+            is_reference_reconstruction = position_id == "E_plus_J"
             add(
                 position_id,
                 label,
                 raw,
                 f"{left.position_id} + {right.position_id} = {left.value} + {right.value} = {raw}",
-                40,
+                1 if is_reference_reconstruction else 40,
+                (
+                    "reconstructed_from_reference_diagram"
+                    if is_reference_reconstruction
+                    else "explicitly_stated_in_course"
+                ),
+                (
+                    "Reference calculator diagram (manual comparison, 1990-08-16)"
+                    if is_reference_reconstruction
+                    else SOURCE_DOCUMENT
+                ),
+            )
+
+        health_source = "Reference health-card diagram (manual comparison, 1990-08-16)"
+
+        def health_cell(
+            column_id: Literal["physics", "energy", "emotions"],
+            formula: str,
+            raw_value: int,
+            trace_prefix: str,
+        ) -> HealthCardCell:
+            normalized = self.normalizer.normalize_with_trace(raw_value)
+            arcana = get_mahesa_gantari_arcana(normalized.value)
+            return HealthCardCell(
+                column_id=column_id,
+                formula=formula,
+                value=normalized.value,
+                arcana_number=arcana.energy_number,
+                arcana_name=arcana.arcana_name,
+                calculation_trace=(trace_prefix, *normalized.calculation_trace),
+                evidence=FormulaEvidence(
+                    source_document=health_source,
+                    source_page=1,
+                    evidence_status="reconstructed_from_reference_health_card",
+                    verified=False,
+                ),
+                verified=False,
+            )
+
+        health_specs = (
+            ("sahasrara", "Sahasrara", a, b),
+            ("ajna", "Ajna", points["A_plus_J"], j),
+            ("vishuddha", "Vishuddha", j, k),
+            ("anahata", "Anahata", points["E_plus_J"], points["E_plus_K"]),
+            ("manipura", "Manipura", e, e),
+            ("svadhisthana", "Svadhisthana", l, m),
+            ("muladhara", "Muladhara", c, d),
+        )
+        health_rows: list[HealthCardRow] = []
+        for row_id, label, physics_point, energy_point in health_specs:
+            emotion_raw = physics_point.value + energy_point.value
+            health_rows.append(
+                HealthCardRow(
+                    row_id=row_id,
+                    label=label,
+                    physics=health_cell(
+                        "physics",
+                        physics_point.position_id,
+                        physics_point.value,
+                        f"{physics_point.position_id} = {physics_point.value}",
+                    ),
+                    energy=health_cell(
+                        "energy",
+                        energy_point.position_id,
+                        energy_point.value,
+                        f"{energy_point.position_id} = {energy_point.value}",
+                    ),
+                    emotions=health_cell(
+                        "emotions",
+                        f"normalize({physics_point.position_id} + {energy_point.position_id})",
+                        emotion_raw,
+                        f"{physics_point.position_id} + {energy_point.position_id} = {physics_point.value} + {energy_point.value} = {emotion_raw}",
+                    ),
+                )
+            )
+
+        def result_cell(column_id: Literal["physics", "energy", "emotions"]) -> HealthCardCell:
+            values = [getattr(row, column_id).value for row in health_rows]
+            raw = sum(values)
+            joined = " + ".join(str(value) for value in values)
+            return health_cell(
+                column_id,
+                f"normalize(sum({column_id} column))",
+                raw,
+                f"{column_id} result: {joined} = {raw}",
             )
 
         earth = self._point("earth", "Earth Line Value", a.value + c.value, f"A + C = {a.value} + {c.value} = {a.value + c.value}", 41)
@@ -339,6 +482,19 @@ class MahesaGantariRwsMethodology:
                     "socialization": "approximately ages 40-60",
                     "spiritual_knowledge": "approximately age 60 and later",
                 },
+            ),
+            health_card=HealthCard(
+                rows=tuple(health_rows),
+                result=HealthCardResult(
+                    physics=result_cell("physics"),
+                    energy=result_cell("energy"),
+                    emotions=result_cell("emotions"),
+                ),
+                verified=False,
+                warnings=(
+                    "Health Card formulas are reconstructed from a reference diagram and remain unverified.",
+                    "This numerology table is not a medical assessment, diagnosis, or treatment recommendation.",
+                ),
             ),
             sect_context=SectContext.from_user_value(sect),
             warnings=(

@@ -35,7 +35,7 @@ def test_complete_response_and_inactive_sect(
     assert body["methodology_version"] == "mahesa-gantari-rws-v0.1"
     assert body["status"] == "course_transcribed"
     assert body["verified"] is False
-    assert len(body["points"]) == 31
+    assert len(body["points"]) == 32
     assert body["sect_context"]["sect"] == sect
     assert body["sect_context"]["interpretation_modifier_active"] is False
     assert body["sect_context"]["weighting_rule_version"] is None
@@ -45,6 +45,7 @@ def test_complete_response_and_inactive_sect(
     assert body["money_line"]["ordered_point_ids"] == ["L", "L_plus_N", "N"]
     assert body["relationship_line"]["line_id"] != body["karmic_tail"]["line_id"]
     assert body["purpose"]["spiritual_knowledge"]["calculation_trace"]
+    assert body["health_card"]["verified"] is False
 
 
 def test_default_sect_and_invalid_inputs(client: TestClient, monkeypatch) -> None:

@@ -29,10 +29,19 @@ FIXTURE_PATH = (
     / "fixtures"
     / "mahesa_gantari_1988_08_18.json"
 )
+HEALTH_FIXTURE_PATH = (
+    Path(__file__).parent
+    / "fixtures"
+    / "mahesa_gantari_1990_08_16.json"
+)
 
 
 def fixture_data() -> dict:
     return json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
+
+
+def health_fixture_data() -> dict:
+    return json.loads(HEALTH_FIXTURE_PATH.read_text(encoding="utf-8"))
 
 
 def point_values(result) -> dict[str, int]:
@@ -132,6 +141,82 @@ def test_course_calculation_traces_and_evidence_metadata() -> None:
     )
     assert result.purpose.male.evidence.verified is False
     assert result.purpose.female.evidence.verified is False
+
+
+def test_e_plus_j_is_reconstructed_with_trace() -> None:
+    fixture = health_fixture_data()
+    result = MahesaGantariRwsMethodology().calculate(date(1990, 8, 16))
+    point = {item.position_id: item for item in result.points}["E_plus_J"]
+
+    assert point.value == fixture["expected_e_plus_j"]
+    assert point.calculation_trace[:3] == (
+        "E + J = 5 + 21 = 26",
+        "26 is greater than 22",
+        "2 + 6 = 8",
+    )
+    assert point.evidence.evidence_status == "reconstructed_from_reference_diagram"
+    assert point.evidence.verified is False
+    assert len(result.points) == fixture["expected_point_count"]
+
+
+def health_values(result) -> dict[str, tuple[int, int, int]]:
+    return {
+        row.row_id: (row.physics.value, row.energy.value, row.emotions.value)
+        for row in result.health_card.rows
+    }
+
+
+def test_health_card_fixture_values_order_and_evidence() -> None:
+    fixture = health_fixture_data()
+    result = MahesaGantariRwsMethodology().calculate(date(1990, 8, 16))
+
+    assert [row.row_id for row in result.health_card.rows] == [
+        "sahasrara",
+        "ajna",
+        "vishuddha",
+        "anahata",
+        "manipura",
+        "svadhisthana",
+        "muladhara",
+    ]
+    assert health_values(result) == {
+        row_id: tuple(values)
+        for row_id, values in fixture["expected_health_card"].items()
+    }
+    assert (
+        result.health_card.result.physics.value,
+        result.health_card.result.energy.value,
+        result.health_card.result.emotions.value,
+    ) == tuple(fixture["expected_result"])
+    cells = [
+        cell
+        for row in result.health_card.rows
+        for cell in (row.physics, row.energy, row.emotions)
+    ] + [
+        result.health_card.result.physics,
+        result.health_card.result.energy,
+        result.health_card.result.emotions,
+    ]
+    assert all(cell.calculation_trace for cell in cells)
+    assert all(cell.verified is False for cell in cells)
+    assert all(cell.evidence.verified is False for cell in cells)
+    assert all(
+        cell.evidence.evidence_status
+        == "reconstructed_from_reference_health_card"
+        for cell in cells
+    )
+    assert result.health_card.rows[4].emotions.formula == "normalize(E + E)"
+    assert result.health_card.rows[4].emotions.calculation_trace[0] == "E + E = 5 + 5 = 10"
+
+
+def test_sect_does_not_affect_health_card() -> None:
+    methodology = MahesaGantariRwsMethodology()
+    day = methodology.calculate(date(1990, 8, 16), Sect.DAY)
+    night = methodology.calculate(date(1990, 8, 16), Sect.NIGHT)
+    unknown = methodology.calculate(date(1990, 8, 16), Sect.UNKNOWN)
+
+    assert health_values(day) == health_values(night) == health_values(unknown)
+    assert day.health_card.result == night.health_card.result == unknown.health_card.result
 
 
 def line_evidence() -> FormulaEvidence:

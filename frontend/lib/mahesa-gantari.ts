@@ -26,6 +26,36 @@ export interface CourseLine {
   evidence: Evidence;
 }
 
+export interface HealthCardCell {
+  column_id: "physics" | "energy" | "emotions";
+  formula: string;
+  value: number;
+  arcana_number: number;
+  arcana_name: string;
+  calculation_trace: string[];
+  evidence: Evidence;
+  verified: false;
+}
+
+export interface HealthCardRow {
+  row_id: string;
+  label: string;
+  physics: HealthCardCell;
+  energy: HealthCardCell;
+  emotions: HealthCardCell;
+}
+
+export interface HealthCard {
+  rows: HealthCardRow[];
+  result: {
+    physics: HealthCardCell;
+    energy: HealthCardCell;
+    emotions: HealthCardCell;
+  };
+  verified: false;
+  warnings: string[];
+}
+
 export interface MahesaGantariResult {
   methodology_version: string;
   status: string;
@@ -48,6 +78,7 @@ export interface MahesaGantariResult {
     spiritual_knowledge: CoursePoint;
     age_range_metadata: Record<string, string>;
   };
+  health_card: HealthCard;
   sect_context: {
     sect: Sect;
     source: string;
