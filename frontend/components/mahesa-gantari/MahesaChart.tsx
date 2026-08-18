@@ -10,7 +10,7 @@ const POSITIONS: Record<string, [number, number]> = {
   O:[460,350], P:[240,220], Q:[560,220], R:[560,480], S:[240,480],
   A_plus_J:[145,350], E_plus_J:[320,350], B_plus_K:[400,130], C_plus_L:[665,350], D_plus_M:[400,570],
   F_plus_P:[205,185], G_plus_Q:[595,185], H_plus_R:[595,515], I_plus_S:[205,515],
-  E_plus_K:[400,265], E_plus_O:[510,350], L_plus_N:[555,350], M_plus_N:[445,470]
+  E_plus_K:[400,265], E_plus_O:[510,350], L_plus_N:[535,385], M_plus_N:[445,475]
 };
 const primary = new Set(["A","B","C","D","E"]);
 const corners = new Set(["F","G","H","I"]);
@@ -28,6 +28,7 @@ export function MahesaChart({points, selected, onSelect, language}:{points:Cours
       <path d="M70 350 L170 152 L400 70 L630 152 L730 350 L630 548 L400 630 L170 548 Z" fill="rgba(217,181,109,.035)" stroke="#d9b56d" strokeWidth="2"/>
       <path d="M70 350H730 M400 70V630 M170 152L630 548 M630 152L170 548" stroke="#d9b56d" strokeOpacity=".28" strokeWidth="2"/>
       <path d="M220 350L400 190L600 350L400 510Z M240 220L560 220L560 480L240 480Z" fill="none" stroke="#fff7e8" strokeOpacity=".16" strokeDasharray="7 8"/>
+      <path d="M445 475L490 430L535 385" fill="none" stroke="#d9b56d" strokeOpacity=".45" strokeWidth="2" strokeDasharray="6 7"/>
       {points.map(point => {
         const [x,y] = POSITIONS[point.position_id] ?? [350,350];
         const additional = !primary.has(point.position_id)&&!corners.has(point.position_id)&&!inner.has(point.position_id)&&!shadow.has(point.position_id);
